@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Propose Day Site</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#fbc2eb,#ff9a9e);min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.card{background:#fff;padding:20px;border-radius:25px;box-shadow:0 10px 25px rgba(0,0,0,.2);max-width:350px}
+button{border:none;padding:10px 20px;border-radius:30px;background:#ff4d6d;color:white;font-size:16px}
+input{padding:8px;border-radius:20px;border:1px solid #ccc}
+.big{font-size:70px;cursor:pointer}
+.float{position:absolute;transition:.25s}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+let step=0,noBtn;
+const meetDate=new Date("2026-01-22T22:30:00");
+
+function timerText(){
+let diff=new Date()-meetDate;
+return Math.floor(diff/86400000)+" Days "+Math.floor(diff/3600000)%24+" Hours "+Math.floor(diff/60000)%60+" Minutes";
+}
+
+function moveNo(){
+noBtn.style.left=Math.random()*300+"px";
+noBtn.style.top=Math.random()*200+"px";
+}
+
+function render(){
+const app=document.getElementById("app");app.innerHTML="";
+if(step===0){app.innerHTML="🎁";app.className="big";app.onclick=()=>{step=1;render();};return}
+if(step===1){app.className="";app.innerHTML='<div class="card">Write your name 💝<br><input id="name"><br><br><button onclick="checkName()">Open</button><p id="err" style="color:red"></p></div>';return}
+if(step===2){app.innerHTML='<div><div class="big">🧚‍♀️</div><h2 id="time"></h2><p>Since 22 Jan 2026 at 10:30 PM</p><button onclick="step=3;render()">Next 💖</button></div>';setInterval(()=>{document.getElementById("time").innerText=timerText()},1000);return}
+if(step===3){app.innerHTML='<div style="position:relative;height:200px"><h2>Will you accept my proposal Sushma Ji? 💍</h2><button onclick="step=4;render()">Yes ❤️</button><button id="no" class="float">No 🙈</button><p>Try catching the No button 😄</p></div>';noBtn=document.getElementById("no");noBtn.onmouseover=moveNo;noBtn.ontouchstart=moveNo;return}
+if(step===4){app.innerHTML='<div><div class="big">❤️</div><p>Tap the heart 💖</p></div>';app.onclick=()=>{step=5;render();};return}
+if(step===5){app.innerHTML='<div class="card">Your smile is my happiness 😊<br>Your beauty lights my world ✨<br>Your laughter heals me 😍<br><button onclick="step=6;render()">Next 💌</button></div>';return}
+if(step===6){app.innerHTML='<div class="card">🎬 Movie: Sita Ramam<br>🥟 Snack: Momos<br>🏔️ Place: Nepal<br>🍫 Chocolate: Dairy Milk<br><button onclick="step=7;render()">Continue ❤️</button></div>';return}
+if(step===7){app.innerHTML='<div class="card">तेरी हँसी में मेरी सुबह बसती है...<br><i>You are my most beautiful destiny 💫</i><br><button onclick="step=0;render()">Close 🌷</button></div>';return}
+}
+
+function checkName(){
+let name=document.getElementById("name").value;
+if(name.toLowerCase()!=="sushma")document.getElementById("err").innerText="Only Sushma Ji can open this 💖";
+else{step=2;render();}
+}
+render();
+</script>
+</body>
+</html>
